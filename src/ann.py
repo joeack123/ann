@@ -2,20 +2,23 @@ import os
 os.environ['TF_CPP_MIN_LOG_LEVEL']='2'
 import tensorflow as tf
 
-#getting the data
+#getting the data from the MNIST data set
 from tensorflow.examples.tutorials.mnist import input_data
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True)
 
+#initialize the number of nodes for each hidden layer
 n_nodes_hl1 = 1000
 n_nodes_hl2 = 1000
 n_nodes_hl3 = 1000
 
+#initialize the class and batch size
 n_classes = 10
 batch_size = 100
 
 x = tf.placeholder('float', [None, 784])
 y = tf.placeholder('float')
 
+#building the neural network model
 def neural_network(data):
 	hidden_layer_1 = {'weights':tf.Variable(tf.random_normal([784, n_nodes_hl1])), 'biases':tf.Variable(tf.random_normal([n_nodes_hl1]))}
 	hidden_layer_2 = {'weights':tf.Variable(tf.random_normal([n_nodes_hl1, n_nodes_hl2])),'biases':tf.Variable(tf.random_normal([n_nodes_hl2]))}
@@ -36,11 +39,12 @@ def neural_network(data):
 
 	return output
 
+#Traning the neural network
 def train(x):
 	prediction = neural_network(x)
 	cost = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(labels=y,logits=prediction))
 	optimizer = tf.train.AdamOptimizer().minimize(cost)
-
+	
 	n_epochs = 100
 
 	with tf.Session() as sess:
