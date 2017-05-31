@@ -15,6 +15,7 @@ n_nodes_hl3 = 1000
 n_classes = 10
 batch_size = 100
 
+#placeholder value for the inputs
 x = tf.placeholder('float', [None, 784])
 y = tf.placeholder('float')
 
